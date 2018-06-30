@@ -25,4 +25,7 @@ describe('convert', () => {
     it('should return [test,100]', () => {
         assert.deepEqual($list.convert('\x06\x01\x74\x65\x73\x74\x03\x04\x64'), ['test',100]);
     });
+    it('should return [500]', () => {
+        assert.deepEqual($list.convert([0x4,0x4,0xf4,0x1]), [500]);
+    });
 });
