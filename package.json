@@ -13,6 +13,7 @@
     "express": "latest"
   },
   "devDependencies": {
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "mocha": "latest"
   }
 }
