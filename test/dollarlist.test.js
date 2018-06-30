@@ -28,4 +28,13 @@ describe('convert', () => {
     it('should return [500]', () => {
         assert.deepEqual($list.convert([0x4,0x4,0xf4,0x1]), [500]);
     });
+    it('should return [0]', () => {
+        assert.deepEqual($list.convert([0x2,0x4]), [0]);
+    });
+    it('should return [-1]', () => {
+        assert.deepEqual($list.convert([0x2,0x5]), [-1]);
+    });
+    it('should return [-2]', () => {
+        assert.deepEqual($list.convert([0x3,0x5,0xfe]), [-2]);
+    });
 });
