@@ -38,3 +38,12 @@ describe('convert', () => {
         assert.deepEqual($list.convert([0x3,0x5,0xfe]), [-2]);
     });
 });
+
+describe('convert longer strings', () => {
+    it('should return 259 spaces and an x', () => {
+        let data = ' '.repeat(259) + 'x';
+        let v0 = [0x0,0x5,0x1,0x1].concat( Array(259).fill(0x20) ).concat(0x78);
+
+        assert.deepEqual($list.convert(v0),[data])
+    });
+});
