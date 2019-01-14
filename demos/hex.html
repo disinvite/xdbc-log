@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* 313131-abe1fd-fed1be-f0e0a2-adddcf */
+body {
+  background: #313131;
+}
+.container {
+  font: 20px monospace;
+  color: #abe1fd;
+  margin: 0 auto;
+  width: 850px;
+}
+.hex-area {
+  margin-right:50px;
+  width: 600px;
+  float: left;
+}
+.ascii-area {
+  width:200px;
+  float: left;
+}
+
+.color1 { color: #abe1fd; }
+.color2 { color: #fed1be; }
+.color3 { color: #f0e0a2; }
+.color4 { color: #adddcf; }
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="hex-area"></div>
+    <div class="ascii-area"></div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script>
+/*
+4B  00  00  00  02  00  00  00  00  00  00  00  00  00
+3B  01  43  61  63  68  65  20  4F  62  6A  65  63  74
+73  20  56  65  72  73  69  6F  6E  20  32  30  31  35
+2E  31  2E  34  2E  38  30  33  20  43  61  63  68  65
+20  78  44  42  43  20  53  65  72  76  65  72  20  38
+2E  30  31  03  04  01  03  04  01  03  04  03  05  01
+38  39  32  02  04
+*/
+
+const bytes = 'SwAAAAIAAAAAAAAAAAA7AUNhY2hlIE9iamVjdHMgVmVyc2lvbiAyMDE1LjEuNC44MDMgQ2FjaGUgeERCQyBTZXJ2ZXIgOC4wMQMEAQMEAQMEAwUBODkyAgQ=';
+const splits = [14,59,3,3,3,5,2];
+const colors = ['color1','color2','color3','color4'];
+
+function byte_to_hex_str(byte)
+{
+  return byte.charCodeAt(0).toString(16).padStart(2,'0').toUpperCase();
+}
+
+function aaa(arg)
+{
+  let c = atob(arg);
+  return c.split('').map(byte_to_hex_str);
+}
+
+function bbb(arg)
+{
+  let c = atob(arg);
+  return c.replace(/[^ -~]/g, '.').split('');
+}
+
+function draw_hex()
+{
+  let hxs = aaa(bytes);
+  let slice_idx = 0;
+
+  for(let i = 13; i < hxs.length; i += 14) {
+    hxs[i] += '<br>';
+  }
+
+  splits.forEach((v,k) => {
+    let bs = hxs.slice(slice_idx,slice_idx+v);
+    let area = $('<span>')
+      .addClass(colors[k % 4])
+      .html( bs.join(' ') + ' ' );
+    $('.hex-area').append(area);
+    slice_idx += v;
+  })
+}
+
+function draw_ascii()
+{
+  let cxs = bbb(bytes);
+  let slice_idx = 0;
+
+  for(let i = 13; i < cxs.length; i += 14) {
+    cxs[i] += '<br>';
+  }
+
+  console.log(cxs);
+
+  splits.forEach((v,k) => {
+    let bs = cxs.slice(slice_idx,slice_idx+v);
+    let area = $('<span>')
+      .addClass(colors[k % 4])
+      .html( bs.join('') );
+    $('.ascii-area').append(area);
+    slice_idx += v;
+  })
+}
+
+$(() => {
+  draw_hex();
+  draw_ascii();
+});
+</script>
+</body>
+</html>
